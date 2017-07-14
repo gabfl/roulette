@@ -168,7 +168,10 @@ def getOutcome(betAmount, bet, specificChoice=None):
     # print()
 
     if (specificChoice and number == specificChoice) or (specificChoice is None and number in bet['winningSpaces']):
-        print('  ... you won!')
+        if isUnicodeSupported():
+            print('  ... you won!  ' + u"\U0001F4B0" '  ' * 3)
+        else:
+            print('  ... you won!')
 
         a, b = bet['payout']
         updateBank(betAmount * a / b)
@@ -217,6 +220,10 @@ def sleep(iteration, total):
         s = 0.18
     elif pct < 99:
         s = 0.2
+    elif iteration == total - 2:  # 2nd to last one
+        s = 0.4
+    elif iteration == total - 1:  # Last one
+        s = 1
     else:  # Default
         s = 0.25
 
@@ -372,7 +379,7 @@ def play(previousBetNumber=None, previousBetAmount=None):
         getOutcome(int(betAmount), bet, specificChoice)
 
         # Start another game
-        time.sleep(1)
+        time.sleep(2)
         play(betNumber, float(betAmount))
     except KeyboardInterrupt:
         print()

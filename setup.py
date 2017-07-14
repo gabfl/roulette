@@ -8,7 +8,7 @@ except(IOError, ImportError):
 
 setup(
     name='roulette',
-    version='1.3.1',
+    version='1.3.2',
     description='Roullette game',
     long_description=long_description,
     author='Gabriel Bordeaux',
@@ -23,4 +23,16 @@ setup(
             'roulette = roulette.play:main',
         ],
     },
+    classifiers=[  # see https://pypi.python.org/pypi?%3Aaction=list_classifiers
+        'Topic :: Games/Entertainment :: Simulation',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: MacOS',
+        'Operating System :: POSIX :: Linux',
+        'Natural Language :: English',
+        #'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python',
+        'Development Status :: 4 - Beta',
+        #'Development Status :: 5 - Production/Stable',
+    ],
 )

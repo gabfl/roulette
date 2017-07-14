@@ -208,7 +208,11 @@ def sleep(iteration, total):
     # Calcule percentage of wheel rotation
     pct = iteration / total * 100
 
-    if pct < 50:
+    if iteration == total - 2:  # 2nd to last one
+        s = 0.4
+    elif iteration == total - 1:  # Last one
+        s = 1
+    elif pct < 50:
         s = 0.05
     elif pct < 70:
         s = 0.09
@@ -220,10 +224,6 @@ def sleep(iteration, total):
         s = 0.18
     elif pct < 99:
         s = 0.2
-    elif iteration == total - 2:  # 2nd to last one
-        s = 0.4
-    elif iteration == total - 1:  # Last one
-        s = 1
     else:  # Default
         s = 0.25
 

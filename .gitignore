@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.Python
+build/
+dist/
+roulette.egg-info/
+
+# Mac
+.DS_Store
+
+# Misc
+local/

@@ -17,7 +17,8 @@ setup(
     license='MIT',
     packages=['roulette', 'roulette.utils', 'roulette.vars'],
     package_dir={'roulette': 'src'},
-    install_requires=['argparse', 'configparser', 'tabulate'],  # external dependencies
+    install_requires=['argparse', 'configparser',
+                      'tabulate'],  # external dependencies
     entry_points={
         'console_scripts': [
             'roulette = roulette.play:main',
@@ -29,10 +30,10 @@ setup(
         'Operating System :: MacOS',
         'Operating System :: POSIX :: Linux',
         'Natural Language :: English',
-        #'Programming Language :: Python :: 2.7',
+        #  'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python',
         'Development Status :: 4 - Beta',
-        #'Development Status :: 5 - Production/Stable',
+        #  'Development Status :: 5 - Production/Stable',
     ],
 )

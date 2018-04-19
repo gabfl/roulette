@@ -13,10 +13,13 @@ from .utils import config
 
 # Parse arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("-t", "--type", type=str, help="Roulette type", choices=['french', 'american'], default='french')
+parser.add_argument("-t", "--type", type=str, help="Roulette type",
+                    choices=['french', 'american'], default='french')
 parser.add_argument("-b", "--bank", type=int, help="Set bank amount")
-parser.add_argument("-i", "--minimum_bet", type=int, help="Minimum bet allowed", default=1)
-parser.add_argument("-x", "--maximum_bet", type=int, help="Maximum bet allowed", default=10000)
+parser.add_argument("-i", "--minimum_bet", type=int,
+                    help="Minimum bet allowed", default=1)
+parser.add_argument("-x", "--maximum_bet", type=int,
+                    help="Maximum bet allowed", default=10000)
 args = parser.parse_args()
 
 # Currency locale
@@ -31,7 +34,8 @@ if args.bank:
 
 # Vars
 currentBank = float(conf['bank'])  # Set the default bank
-withColors = addColors(french if args.type == 'french' else american)  # Create the roulette wheel with colors
+# Create the roulette wheel with colors
+withColors = addColors(french if args.type == 'french' else american)
 
 
 def showBank():
@@ -58,7 +62,8 @@ def updateBank(amount):
     # Update bank in config
     config.update('bank', currentBank)
 
-    print('* After accounting for your %s of %s, your bank is now %s' % (word, amountToCurrency(amount), amountToCurrency(currentBank)))
+    print('* After accounting for your %s of %s, your bank is now %s' %
+          (word, amountToCurrency(amount), amountToCurrency(currentBank)))
 
 
 def checkBankStatus():
@@ -142,7 +147,8 @@ def game():
     seq = ('/', '-', '\\', '_')
     for i, item in enumerate(w):
         numer, color = item
-        print('   %s  %s  %s' % (str(seq[i % 4]), getColorIcon(color), str(numer)), end='\r')
+        print('   %s  %s  %s' %
+              (str(seq[i % 4]), getColorIcon(color), str(numer)), end='\r')
         sleep(i, len(w))
 
     # Hide game
@@ -255,7 +261,7 @@ def betsTable():
         ])
 
     # Show bets table
-    print (tabulate(table, headers=['#', 'Bet', 'Payout']))
+    print(tabulate(table, headers=['#', 'Bet', 'Payout']))
 
 
 def isBetTypeValid(betNumber):
@@ -334,7 +340,8 @@ def play(previousBetNumber=None, previousBetAmount=None):
         while valid == False:
             if previousBetNumber:
                 previousBet = getBet(previousBetNumber)
-                betNumber = input('* Choose a bet number (just press [ENTER] to play again `%s`): ' % (previousBet['name']))
+                betNumber = input(
+                    '* Choose a bet number (just press [ENTER] to play again `%s`): ' % (previousBet['name']))
 
                 # Default to previous bet
                 if betNumber == '':
@@ -363,13 +370,15 @@ def play(previousBetNumber=None, previousBetAmount=None):
         valid = False
         while valid == False:
             if previousBetAmount and previousBetAmount < getMaxPossibleBet():
-                betAmount = input('* Place your bets: (min: %s, max: %s) (just press [ENTER] to play again %s): ' % (amountToCurrency(args.minimum_bet), amountToCurrency(getMaxPossibleBet()), amountToCurrency(previousBetAmount)))
+                betAmount = input('* Place your bets: (min: %s, max: %s) (just press [ENTER] to play again %s): ' % (
+                    amountToCurrency(args.minimum_bet), amountToCurrency(getMaxPossibleBet()), amountToCurrency(previousBetAmount)))
 
                 # Default to previous bet
                 if betAmount == '':
                     betAmount = previousBetAmount
             else:
-                betAmount = input('* Place your bets: (min: %s, max: %s): ' % (amountToCurrency(args.minimum_bet), amountToCurrency(getMaxPossibleBet())))
+                betAmount = input('* Place your bets: (min: %s, max: %s): ' % (
+                    amountToCurrency(args.minimum_bet), amountToCurrency(getMaxPossibleBet())))
 
             # Check if the bet amount is valid
             if betAmount:

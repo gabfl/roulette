@@ -4,7 +4,8 @@ __pycache__/
 .Python
 build/
 dist/
-roulette.egg-info/
+*.egg-info
+venv/
 
 # Mac
 .DS_Store

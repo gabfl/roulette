@@ -337,7 +337,7 @@ def play(previousBetNumber=None, previousBetAmount=None):
 
         # Choose a bet number
         valid = False
-        while valid == False:
+        while valid is False:
             if previousBetNumber:
                 previousBet = getBet(previousBetNumber)
                 betNumber = input(
@@ -360,7 +360,7 @@ def play(previousBetNumber=None, previousBetAmount=None):
         specificChoice = None
         if bet['type'] == 'pickone':
             valid = False
-            while valid == False:
+            while valid is False:
                 specificChoice = input('* Pick a number from the wheel: ')
 
                 # Check if the bet type is valid
@@ -368,7 +368,7 @@ def play(previousBetNumber=None, previousBetAmount=None):
 
         # Choose a bet number
         valid = False
-        while valid == False:
+        while valid is False:
             if previousBetAmount and previousBetAmount < getMaxPossibleBet():
                 betAmount = input('* Place your bets: (min: %s, max: %s) (just press [ENTER] to play again %s): ' % (
                     amountToCurrency(args.minimum_bet), amountToCurrency(getMaxPossibleBet()), amountToCurrency(previousBetAmount)))

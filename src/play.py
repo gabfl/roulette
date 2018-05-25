@@ -188,7 +188,7 @@ def sleep(iteration, total):
         at the end of the game
     """
 
-    # Calcule percentage of wheel rotation
+    # Calculate percentage of wheel rotation
     pct = iteration / total * 100
 
     if iteration == total - 2:  # 2nd to last one
@@ -218,7 +218,10 @@ def isUnicodeSupported():
         Returns `True` if stdout supports unicode
     """
 
-    return sys.stdout.encoding.lower().startswith('utf-')
+    if sys.stdout.encoding:
+        return sys.stdout.encoding.lower().startswith('utf-')
+
+    return False
 
 
 def betsTable():
@@ -267,7 +270,7 @@ def getBet(betNumber):
     return bets[int(betNumber) - 1]
 
 
-def isBetAmountValid(betAmount, maximum_bet, minimum_bet):
+def isBetAmountValid(betAmount, minimum_bet, maximum_bet):
     """
         Check if a bet amount is between the minimum and maximum allowed amounts
     """
@@ -295,7 +298,7 @@ def isSpecificChoiceValid(choice, type_):
     return False
 
 
-def play(type_='french', minimum_bet=1, maximum_bet=10000):
+def play(type_='french', minimum_bet=1, maximum_bet=10000, break_=False):
     """
         Initiate a game
     """
@@ -318,7 +321,7 @@ def play(type_='french', minimum_bet=1, maximum_bet=10000):
         while True:
             # Choose a bet number
             valid = False
-            while valid == False:
+            while valid is False:
                 if previousBetNumber:
                     previousBet = getBet(previousBetNumber)
                     betNumber = input(
@@ -341,7 +344,7 @@ def play(type_='french', minimum_bet=1, maximum_bet=10000):
             specificChoice = None
             if bet['type'] == 'pickone':
                 valid = False
-                while valid == False:
+                while valid is False:
                     specificChoice = input('* Pick a number from the wheel: ')
 
                     # Check if the bet type is valid
@@ -349,7 +352,7 @@ def play(type_='french', minimum_bet=1, maximum_bet=10000):
 
             # Choose a bet number
             valid = False
-            while valid == False:
+            while valid is False:
                 if previousBetAmount and previousBetAmount < getMaxPossibleBet(maximum_bet):
                     betAmount = input('* Place your bets: (min: %s, max: %s) (just press [ENTER] to play again %s): ' % (
                         amountToCurrency(minimum_bet), amountToCurrency(getMaxPossibleBet(maximum_bet)), amountToCurrency(previousBetAmount)))
@@ -364,7 +367,7 @@ def play(type_='french', minimum_bet=1, maximum_bet=10000):
                 # Check if the bet amount is valid
                 if betAmount:
                     valid = isBetAmountValid(
-                        float(betAmount), maximum_bet, minimum_bet)
+                        float(betAmount), minimum_bet, maximum_bet)
 
             # Initiate the game
             getOutcome(int(betAmount), bet, specificChoice)
@@ -375,6 +378,10 @@ def play(type_='french', minimum_bet=1, maximum_bet=10000):
             # Set vars for re-play
             previousBetNumber = betNumber
             previousBetAmount = float(betAmount)
+
+            # Break if requested
+            if break_:
+                break
     except KeyboardInterrupt:
         print()
         showBank()
@@ -382,7 +389,7 @@ def play(type_='french', minimum_bet=1, maximum_bet=10000):
         print('* Game interrupted')
 
 
-def firstPlay(bank=None, type_='french', minimum_bet=1, maximum_bet=10000):
+def firstPlay(bank=None, type_='french', minimum_bet=1, maximum_bet=10000, break_=False):
     global currentBank, withColors
 
     # Get config
@@ -399,7 +406,8 @@ def firstPlay(bank=None, type_='french', minimum_bet=1, maximum_bet=10000):
 
     play(type_=type_,
          minimum_bet=minimum_bet,
-         maximum_bet=maximum_bet)
+         maximum_bet=maximum_bet,
+         break_=break_)
 
 
 def main():

@@ -114,5 +114,4 @@ class Test(unittest.TestCase):
 
     def test_firstPlay(self):
         with unittest.mock.patch('builtins.input', return_value='17'):
-            play.currentBank = 20
-            play.firstPlay(break_=True)
+            play.firstPlay(bank=20, break_=True)

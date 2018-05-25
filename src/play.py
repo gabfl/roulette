@@ -372,16 +372,16 @@ def play(type_='french', minimum_bet=1, maximum_bet=10000, break_=False):
             # Initiate the game
             getOutcome(int(betAmount), bet, specificChoice)
 
-            # Break if requested
-            if break_:
-                break
-
             # Start another game
             time.sleep(2)
 
             # Set vars for re-play
             previousBetNumber = betNumber
             previousBetAmount = float(betAmount)
+
+            # Break if requested
+            if break_:
+                break
     except KeyboardInterrupt:
         print()
         showBank()

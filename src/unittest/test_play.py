@@ -107,12 +107,12 @@ class Test(unittest.TestCase):
         self.assertFalse(play.isSpecificChoiceValid(55, 'french'))
         self.assertFalse(play.isSpecificChoiceValid(55, 'american'))
 
-    # def test_play(self):
-    #     with unittest.mock.patch('builtins.input', return_value='no'):
-    #         play.currentBank = 20
-    #         play.play(break_=True)
+    def test_play(self):
+        with unittest.mock.patch('builtins.input', return_value='17'):
+            play.currentBank = 20
+            play.play(break_=True)
 
-    # def test_firstPlay(self):
-    #     with unittest.mock.patch('builtins.input', return_value='no'):
-    #         play.currentBank = 20
-    #         play.firstPlay(break_=True)
+    def test_firstPlay(self):
+        with unittest.mock.patch('builtins.input', return_value='17'):
+            play.currentBank = 20
+            play.firstPlay(break_=True)

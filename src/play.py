@@ -11,27 +11,8 @@ from .vars.numbers import *
 from .vars.bets import *
 from .utils import config
 
-# Parse arguments
-parser = argparse.ArgumentParser()
-parser.add_argument("-t", "--type", type=str, help="Roulette type", choices=['french', 'american'], default='french')
-parser.add_argument("-b", "--bank", type=int, help="Set bank amount")
-parser.add_argument("-i", "--minimum_bet", type=int, help="Minimum bet allowed", default=1)
-parser.add_argument("-x", "--maximum_bet", type=int, help="Maximum bet allowed", default=10000)
-args = parser.parse_args()
-
 # Currency locale
 locale.setlocale(locale.LC_ALL, '')
-
-# Get config
-conf = config.getConfig()
-
-# Override bank if necessary
-if args.bank:
-    config.update('bank', args.bank)
-
-# Vars
-currentBank = float(conf['bank'])  # Set the default bank
-withColors = addColors(french if args.type == 'french' else american)  # Create the roulette wheel with colors
 
 
 def showBank():
@@ -58,7 +39,8 @@ def updateBank(amount):
     # Update bank in config
     config.update('bank', currentBank)
 
-    print('* After accounting for your %s of %s, your bank is now %s' % (word, amountToCurrency(amount), amountToCurrency(currentBank)))
+    print('* After accounting for your %s of %s, your bank is now %s' %
+          (word, amountToCurrency(amount), amountToCurrency(currentBank)))
 
 
 def checkBankStatus():
@@ -87,17 +69,17 @@ def amountToCurrency(amount):
         return '$' + str(round(amount, 2))
 
 
-def getMaxPossibleBet():
+def getMaxPossibleBet(maximum_bet):
     """
         Will return the maximum bet allowed for this game
     """
 
     global currentBank
 
-    if currentBank < args.maximum_bet:
+    if currentBank < maximum_bet:
         return currentBank
 
-    return args.maximum_bet
+    return maximum_bet
 
 
 def wheel():
@@ -142,7 +124,8 @@ def game():
     seq = ('/', '-', '\\', '_')
     for i, item in enumerate(w):
         numer, color = item
-        print('   %s  %s  %s' % (str(seq[i % 4]), getColorIcon(color), str(numer)), end='\r')
+        print('   %s  %s  %s' %
+              (str(seq[i % 4]), getColorIcon(color), str(numer)), end='\r')
         sleep(i, len(w))
 
     # Hide game
@@ -255,7 +238,7 @@ def betsTable():
         ])
 
     # Show bets table
-    print (tabulate(table, headers=['#', 'Bet', 'Payout']))
+    print(tabulate(table, headers=['#', 'Bet', 'Payout']))
 
 
 def isBetTypeValid(betNumber):
@@ -284,41 +267,44 @@ def getBet(betNumber):
     return bets[int(betNumber) - 1]
 
 
-def isBetAmountValid(betAmount):
+def isBetAmountValid(betAmount, maximum_bet, minimum_bet):
     """
         Check if a bet amount is between the minimum and maximum allowed amounts
     """
 
-    if betAmount and betAmount >= float(args.minimum_bet) and betAmount <= getMaxPossibleBet():
+    if betAmount and betAmount >= float(minimum_bet) and betAmount <= getMaxPossibleBet(maximum_bet):
         return True
 
     return False
 
 
-def isSpecificChoiceValid(choice):
+def isSpecificChoiceValid(choice, type_):
     global american, french
 
     # Convert choice to int except for `00`
     if choice != '00':
         choice = int(choice)
 
-    if args.type == 'french':
+    if type_ == 'french':
         if choice in list(french):
             return True
-    elif args.type == 'american':
+    elif type_ == 'american':
         if choice in list(american):
             return True
 
     return False
 
 
-def play(previousBetNumber=None, previousBetAmount=None):
+def play(type_='french', minimum_bet=1, maximum_bet=10000):
     """
-        Inititate a game
+        Initiate a game
     """
 
     # Check bank status
     checkBankStatus()
+
+    # Default vars
+    previousBetNumber = previousBetAmount = None
 
     try:
         # Show bets table
@@ -329,58 +315,66 @@ def play(previousBetNumber=None, previousBetAmount=None):
         print()
         showBank()
 
-        # Choose a bet number
-        valid = False
-        while valid == False:
-            if previousBetNumber:
-                previousBet = getBet(previousBetNumber)
-                betNumber = input('* Choose a bet number (just press [ENTER] to play again `%s`): ' % (previousBet['name']))
-
-                # Default to previous bet
-                if betNumber == '':
-                    betNumber = previousBetNumber
-            else:
-                betNumber = input('* Choose a bet number: ')
-
-            # Check if the bet type is valid
-            valid = isBetTypeValid(betNumber)
-
-        # Display bet name
-        bet = getBet(betNumber)
-        print('* Bet chosen: %s' % (bet['name']))
-
-        # Optionally pick a specific wheel position
-        specificChoice = None
-        if bet['type'] == 'pickone':
+        while True:
+            # Choose a bet number
             valid = False
             while valid == False:
-                specificChoice = input('* Pick a number from the wheel: ')
+                if previousBetNumber:
+                    previousBet = getBet(previousBetNumber)
+                    betNumber = input(
+                        '* Choose a bet number (just press [ENTER] to play again `%s`): ' % (previousBet['name']))
+
+                    # Default to previous bet
+                    if betNumber == '':
+                        betNumber = previousBetNumber
+                else:
+                    betNumber = input('* Choose a bet number: ')
 
                 # Check if the bet type is valid
-                valid = isSpecificChoiceValid(specificChoice)
+                valid = isBetTypeValid(betNumber)
 
-        # Choose a bet number
-        valid = False
-        while valid == False:
-            if previousBetAmount and previousBetAmount < getMaxPossibleBet():
-                betAmount = input('* Place your bets: (min: %s, max: %s) (just press [ENTER] to play again %s): ' % (amountToCurrency(args.minimum_bet), amountToCurrency(getMaxPossibleBet()), amountToCurrency(previousBetAmount)))
+            # Display bet name
+            bet = getBet(betNumber)
+            print('* Bet chosen: %s' % (bet['name']))
 
-                # Default to previous bet
-                if betAmount == '':
-                    betAmount = previousBetAmount
-            else:
-                betAmount = input('* Place your bets: (min: %s, max: %s): ' % (amountToCurrency(args.minimum_bet), amountToCurrency(getMaxPossibleBet())))
+            # Optionally pick a specific wheel position
+            specificChoice = None
+            if bet['type'] == 'pickone':
+                valid = False
+                while valid == False:
+                    specificChoice = input('* Pick a number from the wheel: ')
 
-            # Check if the bet amount is valid
-            if betAmount:
-                valid = isBetAmountValid(float(betAmount))
+                    # Check if the bet type is valid
+                    valid = isSpecificChoiceValid(specificChoice)
 
-        # Initiate the game
-        getOutcome(int(betAmount), bet, specificChoice)
+            # Choose a bet number
+            valid = False
+            while valid == False:
+                if previousBetAmount and previousBetAmount < getMaxPossibleBet(maximum_bet):
+                    betAmount = input('* Place your bets: (min: %s, max: %s) (just press [ENTER] to play again %s): ' % (
+                        amountToCurrency(minimum_bet), amountToCurrency(getMaxPossibleBet(maximum_bet)), amountToCurrency(previousBetAmount)))
 
-        # Start another game
-        time.sleep(2)
-        play(betNumber, float(betAmount))
+                    # Default to previous bet
+                    if betAmount == '':
+                        betAmount = previousBetAmount
+                else:
+                    betAmount = input('* Place your bets: (min: %s, max: %s): ' % (
+                        amountToCurrency(minimum_bet), amountToCurrency(getMaxPossibleBet(maximum_bet))))
+
+                # Check if the bet amount is valid
+                if betAmount:
+                    valid = isBetAmountValid(
+                        float(betAmount), maximum_bet, minimum_bet)
+
+            # Initiate the game
+            getOutcome(int(betAmount), bet, specificChoice)
+
+            # Start another game
+            time.sleep(2)
+
+            # Set vars for re-play
+            previousBetNumber = betNumber
+            previousBetAmount = float(betAmount)
     except KeyboardInterrupt:
         print()
         showBank()
@@ -388,8 +382,42 @@ def play(previousBetNumber=None, previousBetAmount=None):
         print('* Game interrupted')
 
 
+def firstPlay(bank=None, type_='french', minimum_bet=1, maximum_bet=10000):
+    global currentBank, withColors
+
+    # Get config
+    conf = config.getConfig()
+
+    # Override bank if necessary
+    if bank:
+        config.update('bank', bank)
+
+    # Vars
+    currentBank = float(conf['bank'])  # Set the default bank
+    # Create the roulette wheel with colors
+    withColors = addColors(french if type_ == 'french' else american)
+
+    play(type_=type_,
+         minimum_bet=minimum_bet,
+         maximum_bet=maximum_bet)
+
+
 def main():
-    play()
+    # Parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-t", "--type", type=str, help="Roulette type",
+                        choices=['french', 'american'], default='french')
+    parser.add_argument("-b", "--bank", type=int, help="Set bank amount")
+    parser.add_argument("-i", "--minimum_bet", type=int,
+                        help="Minimum bet allowed", default=1)
+    parser.add_argument("-x", "--maximum_bet", type=int,
+                        help="Maximum bet allowed", default=10000)
+    args = parser.parse_args()
+
+    firstPlay(bank=args.bank,
+              type_=args.type,
+              minimum_bet=args.minimum_bet,
+              maximum_bet=args.maximum_bet)
 
 
 if __name__ == '__main__':

@@ -2,9 +2,15 @@
 __pycache__/
 *.py[cod]
 .Python
+*.egg-info
 build/
 dist/
-roulette.egg-info/
+venv/
+.pytest_cache
+
+# Codecov
+.coverage
+coverage.xml
 
 # Mac
 .DS_Store

@@ -1,5 +1,8 @@
 # Roulette
 
+[![Build Status](https://travis-ci.org/gabfl/roulette.svg?branch=master)](https://travis-ci.org/gabfl/roulette)
+[![codecov](https://codecov.io/gh/gabfl/roulette/branch/master/graph/badge.svg)](https://codecov.io/gh/gabfl/roulette)
+
 Simple Roulette game written in Python.
 
 ## Installation

@@ -1,9 +1,9 @@
 # Roulette
 
 [![Pypi](https://img.shields.io/pypi/v/roulette.svg)](https://pypi.org/project/roulette)
-[![Build Status](https://travis-ci.org/gabfl/roulette.svg?branch=master)](https://travis-ci.org/gabfl/roulette)
-[![codecov](https://codecov.io/gh/gabfl/roulette/branch/master/graph/badge.svg)](https://codecov.io/gh/gabfl/roulette)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://raw.githubusercontent.com/gabfl/roulette/master/LICENSE)
+[![Build Status](https://travis-ci.org/gabfl/roulette.svg?branch=main)](https://travis-ci.org/gabfl/roulette)
+[![codecov](https://codecov.io/gh/gabfl/roulette/branch/main/graph/badge.svg)](https://codecov.io/gh/gabfl/roulette)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://raw.githubusercontent.com/gabfl/roulette/main/LICENSE)
 
 Simple Roulette game written in Python.
 
@@ -17,7 +17,7 @@ roulette
 
 ## Demo
 
-![Demo](https://github.com/gabfl/roulette/blob/master/img/demo.gif?raw=true)
+![Demo](https://github.com/gabfl/roulette/blob/main/img/demo.gif?raw=true)
 
 ## Advanced usage
 

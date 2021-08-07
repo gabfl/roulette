@@ -348,7 +348,7 @@ def play(type_='french', minimum_bet=1, maximum_bet=10000, break_=False):
                     specificChoice = input('* Pick a number from the wheel: ')
 
                     # Check if the bet type is valid
-                    valid = isSpecificChoiceValid(specificChoice)
+                    valid = isSpecificChoiceValid(specificChoice, type_)
 
             # Choose a bet number
             valid = False

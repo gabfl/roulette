@@ -8,7 +8,7 @@ except(IOError, ImportError):
 
 setup(
     name='roulette',
-    version='1.4',
+    version='1.5',
     description='Roullette game',
     long_description=long_description,
     author='Gabriel Bordeaux',

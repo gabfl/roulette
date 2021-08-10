@@ -9,7 +9,7 @@ except(IOError, ImportError):
 setup(
     name='roulette',
     version='1.4',
-    description='Roullette game',
+    description='Roulette game',
     long_description=long_description,
     author='Gabriel Bordeaux',
     author_email='pypi@gab.lc',

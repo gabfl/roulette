@@ -1,7 +1,7 @@
 # Roulette
 
 [![Pypi](https://img.shields.io/pypi/v/roulette.svg)](https://pypi.org/project/roulette)
-[![Build Status](https://travis-ci.org/gabfl/roulette.svg?branch=main)](https://travis-ci.org/gabfl/roulette)
+[![Build Status](https://github.com/gabfl/roulette/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/gabfl/roulette/actions)
 [![codecov](https://codecov.io/gh/gabfl/roulette/branch/main/graph/badge.svg)](https://codecov.io/gh/gabfl/roulette)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-green.svg)](https://raw.githubusercontent.com/gabfl/roulette/main/LICENSE)
 

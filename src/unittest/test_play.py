@@ -30,7 +30,7 @@ class Test(unittest.TestCase):
         self.assertRaises(SystemExit, play.checkBankStatus)
 
     def test_amountToCurrency(self):
-        self.assertEqual(play.amountToCurrency(10), '$10.00')
+        self.assertEqual(play.amountToCurrency(10), '$10')
 
     def test_getMaxPossibleBet(self):
         play.currentBank = 10
